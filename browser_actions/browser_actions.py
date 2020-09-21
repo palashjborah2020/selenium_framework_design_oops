@@ -3,7 +3,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import  expected_conditions as EC
 from framework_design_oops.testdata.test_data_file import *
 import logging
+import os
 
+logging.basicConfig(filename=os.path.join(LOG_DIR, "master.log"), level=logging.DEBUG, format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s')
 logger = logging.getLogger(__name__)
 
 
@@ -37,7 +39,25 @@ class BrowserAction():
       def input_text(self, selector, value):
           logger.debug(f"This the element on which will put new data : {selector}")
           element = self.wait.until(EC.presence_of_element_located((selector[0], selector[1])))
+          element.clear()
           element.send_keys(value)
+          logger.info("Click Successfully")
+
+      def verify_element_is_visible(self, selector):
+          logger.debug(f" will verify visibility of given element;  {selector} ")
+          self.wait.until(EC.visibility_of_element_located((selector[0], selector[1])))
+
+      def take_screen_shot(self, filename):
+          if os.path.isdir(IMAGE_DIR):
+              self.spdriver.save_screenshot(os.path.join(IMAGE_DIR, filename))
+          else:
+              os.mkdir(IMAGE_DIR)
+              self.spdriver.save_screenshot(os.path.join(IMAGE_DIR, filename))
+
+
+
+
+
 
 
 

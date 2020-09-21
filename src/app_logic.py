@@ -1,5 +1,6 @@
 from framework_design_oops.browser_actions.browser_actions import BrowserAction
 from .locators import *
+from datetime import datetime
 
 class AppFunction(BrowserAction):
 
@@ -18,6 +19,10 @@ class AppFunction(BrowserAction):
         self.input_text(GOOGLE_SEARCH_BOX, value)
         self.click_element(GOOGLE_SEARCH_BUTTON)
 
-
-
+    def navigate_hotel_page(self):
+        self.click_element(HOTELS_ICON)
+        self.verify_element_is_visible(HOTE_PAGE_HEADER_ELEMENT)
+        cur_time = str(datetime.time(datetime.now()))
+        filename = f"{cur_time}_hotels.png"
+        self.take_screen_shot(filename)
 
